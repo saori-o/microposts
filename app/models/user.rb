@@ -50,4 +50,15 @@ has_many :followings, through: :relationships, source: :follow の場合
   を分岐条件にする
   ------------------------------------------------------------------------------------
 =end
+
+  def feed_microposts # TIMELINE用メソッド
+    Micropost.where(user_id: self.following_ids + [self.id])
+  end
+=begin
+　following_ids は Userモデルの has_many :followings,・・・によって自動的に生成されるメソッド。
+　UserがフォローしているUserのidの配列を取得している。
+　さらに + [self.id] で自分のデータ型をプラスし、追加する。
+　最後に Micropost.where(user_id: フォローユーザ＋自分自身)となるMicropostをすべて取得する。
+=end
+
 end
