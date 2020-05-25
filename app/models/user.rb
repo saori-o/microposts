@@ -65,7 +65,7 @@ has_many :followings, through: :relationships, source: :follow の場合
     favorite = self.favorites.find_by(micropost_id: micropost.id)
     favorite.destroy if favorite
   end
-  def like?(micropost) 
+  def like_micropost?(micropost) 
     self.like_microposts.include?(micropost)
   end
 
