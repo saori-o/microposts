@@ -5,17 +5,21 @@ class User < ApplicationRecord
                     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
                     uniqueness: { case_sensitive: false }
   has_secure_password
-  
-  has_many :microposts
+
+  has_many :microposts  
   has_many :relationships #自分をフォローしているUserへの参照
   has_many :followings, through: :relationships, source: :follow
   has_many :reverses_of_relationship, class_name: 'Relationship', foreign_key: 'follow_id' #自分がフォローしているUserの参照
   has_many :followers, through: :reverses_of_relationship, source: :user
+  
+  has_many :favorites
+  has_many :like_microposts, through: :favorites, source: :micropost
+
 
 =begin
 リレーションについて
 has_many :followings, through: :relationships, source: :follow の場合
-　➘「has_many :followingsという関係を命名し、「フォローしているUserたちを表現
+　➘「has_many :followingsという関係を命名し、「フォローしているUserたち」を表現
 　　「through :relationsips」の記述で「has_many: relationsips」の結果を中間テーブルとして指定している。
 さらに、その中間テーブルのカラムの中でどれを参照先のidとすべきかを「source: :follow」で選択。
 結果として
@@ -50,6 +54,20 @@ has_many :followings, through: :relationships, source: :follow の場合
   を分岐条件にする
   ------------------------------------------------------------------------------------
 =end
+
+  def favo(micropost)
+    unless self == micropost
+      self.favorites.find_or_create_by(micropost_id: micropost.id)
+    end
+  end
+
+  def unfavo(micropost) 
+    favorite = self.favorites.find_by(micropost_id: micropost.id)
+    favorite.destroy if favorite
+  end
+  def like?(micropost) 
+    self.like_microposts.include?(micropost)
+  end
 
   def feed_microposts # TIMELINE用メソッド
     Micropost.where(user_id: self.following_ids + [self.id])
