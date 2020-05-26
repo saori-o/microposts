@@ -14,8 +14,8 @@
     <ul class="nav nav-tabs nav-justified mb-3">
       <li class="nav-item"><a href="<%= user_path(@user) %>" class="nav-link <%= 'active' if current_page?(user_path(@user)) %>">Microposts  <span class="badge badge-secondary"><%= @count_microposts %></span></a></li>
       <li class="nav-item"><a href="<%= followings_user_path(@user) %>" class="nav-link <%= 'active' if current_page?(followings_user_path(@user)) %>">Followings  <span class="badge badge-secondary"><%= @count_followings %></span></a></li>
-      <li class="nav-item"><a href="<%= followers_user_path(@user) %>" class="nav-link <%= 'active' if current_page?(followers_user_path(@user)) %>">Followings  <span class="badge badge-secondary"><%= @count_followers %></span></a></li>
-      <li class="nav-item"><a href="<%= myfavorites_user_path(@user) %>" class="nav-link <%= 'active' if current_page?(myfavorites_user_path(@user)) %>">Myfavorites  <span class="badge badge-secondary"><%= @count_myfavorites %></span></a></li>
+      <li class="nav-item"><a href="<%= followers_user_path(@user) %>" class="nav-link <%= 'active' if current_page?(followers_user_path(@user)) %>">Followers  <span class="badge badge-secondary"><%= @count_followers %></span></a></li>
+      <li class="nav-item"><a href="<%= like_micropost_user_path(@micropost) %>" class="nav-link <%= 'active' if current_page?(like_micropost_user_path(@micropost)) %>">Favorites  <span class="badge badge-secondary"><%= @like_count %></span></a></li>
     </ul>
     <%= render 'microposts/microposts', microposts: @microposts %>
   </div>
