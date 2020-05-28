@@ -5,7 +5,6 @@ class MicropostsController < ApplicationController
   def show
     @micropost = Micropost.find_by(params[:id])
     @users = @micropost.user
-    @like_count = Favorite.where(micropost_id: @micropost.id).count
   end
   
   def create
@@ -26,11 +25,13 @@ class MicropostsController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
   
+  
   private
   
   def micropost_params
     params.require(:micropost).permit(:content)
   end
+  
   def correct_user
     @micropost = current_user.microposts.find_by(id: params[:id])
     unless @micropost

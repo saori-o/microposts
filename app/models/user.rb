@@ -46,6 +46,10 @@ has_many :followings, through: :relationships, source: :follow の場合
     self.followings.include?(other_user)
   end
   
+  def feed_microposts # TIMELINE用メソッド
+    Micropost.where(user_id: self.following_ids + [self.id])
+  end
+  
 =begin
   ------------------------------------------------------------------------------------
   フォロー/アンフォローするときは
@@ -69,9 +73,6 @@ has_many :followings, through: :relationships, source: :follow の場合
     self.like_microposts.include?(micropost)
   end
 
-  def feed_microposts # TIMELINE用メソッド
-    Micropost.where(user_id: self.following_ids + [self.id])
-  end
 =begin
 　following_ids は Userモデルの has_many :followings,・・・によって自動的に生成されるメソッド。
 　UserがフォローしているUserのidの配列を取得している。

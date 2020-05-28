@@ -1,0 +1,16 @@
+<ul class="list-unstyled">
+  <% microposts.each do |micropost| %>
+    <li class="media">
+      <img class="mr-2 rounded" src="<%= gravatar_url(user, { size: 50 }) %>" alt="">
+      <div class="media-body">
+        <div>
+          <%= user.like_micropost %>
+        </div>
+        <div>
+          <p><%= link_to 'Unfavorite', favorites, method: :delete, class: 'btn btn-primary btn-block' %></p>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+  <%= paginate users %>
